@@ -19,14 +19,15 @@ define(function() {
     makeClosures : function(arr, fn) {
         var result = [];
 
-        for (var idx in arr){
-            result.push((function (){
-                var param = arr[idx];
-                return function () {
-                    return fn(param);
-                }
-            })())
-        }
+        var closureFn = function (param){
+            return function () {
+                return fn(param);
+            };
+        };
+
+        arr.forEach(function (item){
+            result.push(closureFn(item));
+        });
 
         return result;
     },
@@ -40,8 +41,8 @@ define(function() {
     useArguments : function() {
         var sum = 0;
 
-        for (var idx in arguments){
-            sum += arguments[idx];
+        for (var i = 0; i < arguments.length; i++){
+            sum += arguments[i];
         }
 
         return sum;
@@ -62,7 +63,7 @@ define(function() {
             var allArgs = args.slice(1, args.length).concat(newArgs);
 
             return func.apply(null, allArgs);
-        }
+        };
     },
 
     curryIt : function(fn) {

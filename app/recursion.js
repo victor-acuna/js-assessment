@@ -5,36 +5,35 @@ define(function() {
     listFiles: function(data, dirName) {
         var result = [];
 
-        var recursiveFn = function (data, dirName){
-            if(dirName){
-                if(data.dir === dirName){
-                    recursiveFn(data);
-                } else {
-                    for (var idx in data.files){
-                        var file = data.files[idx];
-
-                        if(file.dir){
-                            recursiveFn(file, dirName);
-                        }
-                    }
-                }
+        var findDir = function (data, dirName){
+            if (data.dir === dirName){
+                getFiles(data);
             } else {
-                if(data.files){
-                    for(var idx in data.files){
-                        var file = data.files[idx];
-
-                        if(typeof(file) === 'string'){
-                            result.push(file);
-                        } else {
-                            recursiveFn(file);
-                        }
+                data.files.forEach(function (file){
+                    if(file.dir){
+                        findDir(file, dirName);
                     }
-                }
+                });
             }
         };
 
-        recursiveFn(data, dirName);
+        var getFiles = function (data){
+            if (data.files){
+                data.files.forEach(function (file){
+                    if (typeof(file) === 'string'){
+                        result.push(file);
+                    } else {
+                        getFiles(file);
+                    }
+                });
+            }
+        };
 
+        if(dirName){
+            findDir(data, dirName);
+        } else {
+            getFiles(data);
+        }
 
         return result;
     },
@@ -57,7 +56,7 @@ define(function() {
                 recursiveFn(arrCopy);
                 newArr.pop();
             }
-        }
+        };
 
         recursiveFn(arr);
 

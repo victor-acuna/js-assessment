@@ -14,9 +14,9 @@ define([ 'jquery' ], function($) {
         }).pipe(function (data){
             var arr = [];
 
-            for (var idx in data.people){
-                arr.push(data.people[idx].name);
-            }
+            data.people.forEach(function (item){
+                arr.push(item.name);
+            });
 
             return arr.sort();
         });

@@ -9,21 +9,19 @@ define(function() {
     sum : function(arr) {
         var sum = 0;
 
-        for (var idx in arr){
-            var num = arr[idx];
-
+        arr.forEach(function (num){
             if (typeof(num) === 'number'){
                 sum += num;
             } else {
                 return 'Error: Item in array is not a number.';
             }
-        }
+        });
 
         return sum;
     },
 
     remove : function(arr, item) {
-        var newArray = arr.splice(0,arr.length);
+        var newArray = arr.slice();
 
         while (newArray.indexOf(item) >= 0){
             var itemIdx = newArray.indexOf(item);
@@ -72,36 +70,28 @@ define(function() {
     },
 
     count : function(arr, item) {
-        var count = 0;
-
-        for (var idx in arr){
-            if (arr[idx] === item){
-                count++;
-            }
-        }
-
-        return count;
+        return arr.filter(function (entry){
+            return item === entry;
+        }).length;
     },
 
     duplicates : function(arr) {
         var counts = {};
         var results = [];
 
-        for (var idx in arr){
-            var val = arr[idx].toString();
-
+        arr.forEach(function (val){
             if(counts[val]){
                 counts[val] += 1;
             } else {
                 counts[val] = 1;
             }
-        }
+        });
 
-        for (var key in counts){
+        Object.keys(counts).forEach(function (key){
             if (counts[key] > 1){
                 results.push(key);
             }
-        }
+        });
 
         return results;
     },
@@ -109,15 +99,13 @@ define(function() {
     square : function(arr) {
         var results = [];
 
-        for (var idx in arr){
-            var val = arr[idx];
-
+        arr.forEach(function (val){
             if(typeof(val) === 'number'){
-                results.push(Math.pow(arr[idx], 2));
+                results.push(Math.pow(val, 2));
             } else {
                 return 'Error: An item in the array is not a number';
             }
-        }
+        });
 
         return results;
     },
