@@ -7,28 +7,17 @@ define(function() {
     },
 
     sum : function(arr) {
-        var sum = 0;
-
-        arr.forEach(function (num){
-            if (typeof(num) === 'number'){
-                sum += num;
-            } else {
-                return 'Error: Item in array is not a number.';
-            }
+        var sum = arr.reduce(function (sum, num){
+            return sum + num;
         });
 
         return sum;
     },
 
     remove : function(arr, item) {
-        var newArray = arr.slice();
-
-        while (newArray.indexOf(item) >= 0){
-            var itemIdx = newArray.indexOf(item);
-            newArray.splice(itemIdx, 1);
-        }
-
-        return newArray;
+        return arr.filter(function (val){
+            return val !== item;
+        });
     },
 
     removeWithoutCopy : function(arr, item) {
@@ -46,7 +35,7 @@ define(function() {
     },
 
     truncate : function(arr) {
-        arr.splice(arr.length - 1, 1);
+        arr.pop();
         return arr;
     },
 
@@ -97,21 +86,13 @@ define(function() {
     },
 
     square : function(arr) {
-        var results = [];
-
-        arr.forEach(function (val){
-            if(typeof(val) === 'number'){
-                results.push(Math.pow(val, 2));
-            } else {
-                return 'Error: An item in the array is not a number';
-            }
+        return arr.map(function (val){
+            return Math.pow(val, 2);
         });
-
-        return results;
     },
 
     findAllOccurrences : function(arr, target) {
-        var arrCopy = arr.splice(0, arr.length);
+        var arrCopy = arr.slice();
         var result = [];
 
         while(arrCopy.indexOf(target) >= 0){
